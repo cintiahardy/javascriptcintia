@@ -5,13 +5,7 @@ const productos = [
   { nombre: "Zanahoria", precio: 990 },
   { nombre: "Lechuga", precio: 1000 },
   { nombre: "Ciruela", precio: 3500 },
-  { nombre: "Zapallo", precio: 750 },
-  { nombre: "Pera", precio: 2700 },
-  { nombre: "Tomate", precio: 1800 },
-  { nombre: "Pepino", precio: 1250 },
-  { nombre: "Frutilla", precio: 3900 },
-  { nombre: "Cebolla", precio: 950 },
-  { nombre: "Palta", precio: 4200 }
+  { nombre: "Zapallo", precio: 750 }
 ];
 
 const carrito = [];
@@ -66,8 +60,6 @@ function mostrarResumen() {
   alert(resumen);
 }
 
-window.onload = function () {
-  alert("Bienvenido al simulador de compras de Mercado Modelo");
-  agregarAlCarrito();
-  mostrarResumen();
-};
+alert("Bienvenido al simulador de compras de Mercado Modelo");
+agregarAlCarrito();
+mostrarResumen();
