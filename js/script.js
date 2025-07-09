@@ -8,58 +8,67 @@ const productos = [
   { nombre: "Zapallo", precio: 750 }
 ];
 
-const carrito = [];
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-function agregarAlCarrito() {
-  let seguirComprando = true;
+const contenedorProductos = document.getElementById("productos");
+const listaCarrito = document.getElementById("carrito");
+const totalCarrito = document.getElementById("total");
+const btnFinalizar = document.getElementById("finalizar");
 
-  while (seguirComprando) {
-    let mensaje = "Seleccione un producto para agregar al carrito:\n";
-    productos.forEach((producto, index) => {
-      mensaje += (index + 1) + ". " + producto.nombre + " - $" + producto.precio + "\n";
-    });
-
-    let opcion = parseInt(prompt(mensaje)) - 1;
-
-    if (productos[opcion]) {
-      carrito.push(productos[opcion]);
-      alert(productos[opcion].nombre + " agregado al carrito.");
-    } else {
-      alert("Opción inválida. Intente nuevamente.");
-    }
-
-    seguirComprando = confirm("¿Desea agregar otro producto?");
-  }
-}
-
-function calcularTotal() {
-  let total = 0;
-  carrito.forEach(producto => {
-    total += producto.precio;
+function renderizarProductos() {
+  productos.forEach((producto, index) => {
+    const div = document.createElement("div");
+    div.classList.add("producto");
+    div.innerHTML = `
+      <h3>${producto.nombre}</h3>
+      <p>Precio: $${producto.precio}</p>
+      <button onclick="agregarAlCarrito(${index})">Agregar</button>
+    `;
+    contenedorProductos.appendChild(div);
   });
-  return total;
 }
 
-function mostrarResumen() {
+function agregarAlCarrito(index) {
+  carrito.push(productos[index]);
+  guardarCarrito();
+  renderizarCarrito();
+}
+
+function renderizarCarrito() {
+  listaCarrito.innerHTML = "";
+  let total = 0;
+  carrito.forEach((producto, i) => {
+    total += producto.precio;
+    const li = document.createElement("li");
+    li.textContent = `${producto.nombre} - $${producto.precio}`;
+    listaCarrito.appendChild(li);
+  });
+  totalCarrito.textContent = total;
+}
+
+function guardarCarrito() {
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+btnFinalizar.addEventListener("click", () => {
   if (carrito.length === 0) {
     alert("El carrito está vacío.");
     return;
   }
 
   let resumen = "Resumen de tu compra:\n";
-  carrito.forEach((producto, index) => {
-    resumen += (index + 1) + ". " + producto.nombre + " - $" + producto.precio + "\n";
+  carrito.forEach((producto, i) => {
+    resumen += `${i + 1}. ${producto.nombre} - $${producto.precio}\n`;
   });
 
-  let cantidad = carrito.length;
-  let total = calcularTotal();
-
-  resumen += "\nCantidad de productos: " + cantidad;
-  resumen += "\nTotal a pagar: $" + total;
+  resumen += `\nTotal a pagar: $${carrito.reduce((acc, prod) => acc + prod.precio, 0)}`;
 
   alert(resumen);
-}
 
-alert("Bienvenido al simulador de compras de Mercado Modelo");
-agregarAlCarrito();
-mostrarResumen();
+  carrito = [];
+  guardarCarrito();
+  renderizarCarrito();
+});
+
+renderizarProductos();
+renderizarCarrito();
