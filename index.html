@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mercado Modelo - Simulador de Compras</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mercado Modelo - Simulador</title>
+  <link rel="stylesheet" href="css/styles.css">
   <script src="js/script.js" defer></script>
 </head>
 <body>
-  <header class="navbar">
+  <header>
     <h1>Mercado Modelo</h1>
   </header>
 
   <main class="contenedor">
     <section class="productos">
       <h2>Nuestros Productos</h2>
-      <div id="lista-productos" class="grid-productos"></div>
+      <input type="text" id="buscador" placeholder="Buscar producto...">
+      <div id="lista-productos" class="grid"></div>
     </section>
 
     <aside class="carrito">
       <h2>Carrito</h2>
-      <ul id="carrito-lista"></ul>
-      <p><strong>Cantidad:</strong> <span id="cantidad">0</span></p>
+      <p><strong>Cantidad:</strong> <span id="cantidad-productos">0</span></p>
       <p><strong>Total:</strong> $<span id="total">0</span></p>
     </aside>
   </main>
-
-  <footer class="footer">
-    <p>© 2025 Mercado Modelo - Todos los derechos reservados.</p>
-  </footer>
 </body>
 </html>
+

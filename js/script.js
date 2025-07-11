@@ -1,90 +1,74 @@
 const productos = [
-  { nombre: "Manzana", precio: 255, imagen: "img/7589787-uhd_2160_3840_25fps" },
-  { nombre: "Banana", precio: 210, imagen: "img/pexeñs-ata-alikate-1914780-3285517" },
-  { nombre: "Naranja", precio: 190, imagen: "img/naranja.jpg" },
-  { nombre: "Pera", precio: 230, imagen: "img/pera.jpg" },
-  { nombre: "Frutilla", precio: 300, imagen: "img/frutilla.jpg" },
-  { nombre: "Melón", precio: 550, imagen: "img/melon.jpg" },
-  { nombre: "Sandía", precio: 700, imagen: "img/sandia.jpg" },
-  { nombre: "Ananá", precio: 480, imagen: "img/anana.jpg" },
-  { nombre: "Durazno", precio: 290, imagen: "img/durazno.jpg" },
-  { nombre: "Ciruela", precio: 310, imagen: "img/ciruela.jpg" },
-  { nombre: "Mandarina", precio: 180, imagen: "img/mandarina.jpg" },
-  { nombre: "Kiwi", precio: 400, imagen: "img/kiwi.jpg" },
-  { nombre: "Uva", precio: 350, imagen: "img/uva.jpg" },
-  { nombre: "Limón", precio: 150, imagen: "img/limon.jpg" },
-  { nombre: "Pomelo", precio: 200, imagen: "img/pomelo.jpg" },
-  { nombre: "Zanahoria", precio: 90, imagen: "img/zanahoria.jpg" },
-  { nombre: "Lechuga", precio: 100, imagen: "img/lechuga.jpg" },
-  { nombre: "Acelga", precio: 110, imagen: "img/acelga.jpg" },
-  { nombre: "Espinaca", precio: 120, imagen: "img/espinaca.jpg" },
-  { nombre: "Brócoli", precio: 250, imagen: "img/brocoli.jpg" },
-  { nombre: "Coliflor", precio: 260, imagen: "img/coliflor.jpg" },
-  { nombre: "Papa", precio: 80, imagen: "img/papa.jpg" },
-  { nombre: "Batata", precio: 90, imagen: "img/batata.jpg" },
-  { nombre: "Cebolla", precio: 70, imagen: "img/cebolla.jpg" },
-  { nombre: "Morrón", precio: 210, imagen: "img/morron.jpg" },
-  { nombre: "Apio", precio: 150, imagen: "img/apio.jpg" },
-  { nombre: "Repollo", precio: 190, imagen: "img/repollo.jpg" },
-  { nombre: "Pepino", precio: 130, imagen: "img/pepino.jpg" },
-  { nombre: "Berenjena", precio: 200, imagen: "img/berenjena.jpg" },
-  { nombre: "Zapallo", precio: 175, imagen: "img/zapallo.jpg" },
-  { nombre: "Calabaza", precio: 185, imagen: "img/calabaza.jpg" },
-  { nombre: "Tomate", precio: 170, imagen: "img/tomate.jpg" },
-  { nombre: "Rúcula", precio: 100, imagen: "img/rucula.jpg" },
-  { nombre: "Hinojo", precio: 120, imagen: "img/hinojo.jpg" },
-  { nombre: "Chauchas", precio: 220, imagen: "img/chauchas.jpg" },
-  { nombre: "Arvejas", precio: 240, imagen: "img/arvejas.jpg" },
-  { nombre: "Lentejas", precio: 200, imagen: "img/lentejas.jpg" },
-  { nombre: "Garbanzos", precio: 210, imagen: "img/garbanzos.jpg" },
-  { nombre: "Aceitunas", precio: 300, imagen: "img/aceitunas.jpg" },
-  { nombre: "Champiñones", precio: 280, imagen: "img/champiniones.jpg" }
+  { nombre: "Manzana", precio: 1000, imagen: "/img/" },
+  { nombre: "Banana", precio: 950, imagen: "../img/pexels-ata-alikate-1914780-32857517.jpg" },
+  { nombre: "Naranja", precio: 1130, imagen: "../img/pexels-pixabay-161559.jpg" },
+  { nombre: "Mandarina", precio: 1050, imagen: "../img/pexels-pixabay-327098.jpg" },
+  { nombre: "Frutilla", precio: 2100, imagen: "../img/pexels-shotbyrain-6944172.jpg" },
+  { nombre: "Ciruela", precio: 1600, imagen: "../img/ciruela.jpg" },
+  { nombre: "Pera", precio: 1600, imagen: "../img/pexels-karolina-grabowska-4197445.jpg" },
+  { nombre: "Uva", precio: 2000, imagen: "../img/pexels-qjpioneer-708777.jpg" },
+  { nombre: "Ananá", precio: 2500, imagen: "../img/pexels-laker-6157052.jpg" },
+  { nombre: "Sandía", precio: 3000, imagen: "../img/pexels-elaine-bernadine-castro-126177-2403850.jpg" },
+  { nombre: "Durazno", precio: 2100, imagen: "../img/pexels-ellie-burgin-1616546-3283450 (1).jpg" },
+  { nombre: "Tomate", precio: 1150, imagen: "../img/pexels-betul-gunes-1793145775-32771642.jpg" },
+  { nombre: "Zanahoria", precio: 990, imagen: "../img/pexels-kindel-media-7456548.jpg" },
+  { nombre: "Papa", precio: 650, imagen: "../img/pexels-valerie-8096137.jpg" },
+  { nombre: "Cebolla", precio: 700, imagen: "../img/pexels-stella-sch-681533-2095569.jpg" },
+  { nombre: "Lechuga", precio: 780, imagen: "../img/pexels-nc-farm-bureau-marketing-2893639.jpg" },
+  { nombre: "Espinaca", precio: 1300, imagen: "../img/pexels-yaroslav-shuraev-8852027.jpg" },
+  { nombre: "Acelga", precio: 790, imagen: "../img/pexels-mike-jones-8805168.jpg" },
+  { nombre: "Brócoli", precio: 1200, imagen: "../img/pexels-cup-of-couple-7657091.jpg" },
+  { nombre: "Coliflor", precio: 1100, imagen: "../img/pexels-alesia-kozik-6065185.jpg" },
+  { nombre: "Zapallo", precio: 900, imagen: "../img/pexels-polina-kovaleva-7258430.jpg" },
+  { nombre: "Pepino", precio: 850, imagen: "../img/pexels-lo-422811-2329440.jpg" },
+  { nombre: "Apio", precio: 600, imagen: "../img/pexels-n-voitekevich-5377346.jpg" },
+  { nombre: "Remolacha", precio: 920, imagen: "../img/pexels-alesia-kozik-6631952.jpg" },
+  { nombre: "Rabanito", precio: 1100, imagen: "../img/pexels-any-lane-5945662.jpg" },
+  { nombre: "Hinojo", precio: 800, imagen: "../img/pexels-arca-teker-855875994-32920518.jpg" },
+  { nombre: "Palta", precio: 2300, imagen: "../img/pexels-lena-khrupina-1386611-2683373.jpg" },
+  { nombre: "Choclo", precio: 1400, imagen: "../img/pexels-pixabay-27098.jpg" },
+  { nombre: "Repollo", precio: 980, imagen: "../img/pexels-elaine-bernadine-castro-126177-2403850.jpg" },
+  { nombre: "Radicheta", precio: 860, imagen: "../img/pexels-stella-sch-681533-2095569.jpg" },
+  { nombre: "Ajo", precio: 650, imagen: "../img/pexels-karolina-grabowska-4197445.jpg" }
 ];
 
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+let carrito = [];
 
-function actualizarCarrito() {
-  const lista = document.getElementById("carrito-lista");
-  const cantidad = document.getElementById("cantidad");
-  const total = document.getElementById("total");
+function mostrarProductos(productosFiltrados) {
+  const contenedor = document.getElementById('lista-productos');
+  contenedor.innerHTML = '';
 
-  lista.innerHTML = "";
-  let suma = 0;
-
-  carrito.forEach(producto => {
-    const item = document.createElement("li");
-    item.textContent = `${producto.nombre} - $${producto.precio}`;
-    lista.appendChild(item);
-    suma += producto.precio;
-  });
-
-  cantidad.textContent = carrito.length;
-  total.textContent = suma;
-
-  localStorage.setItem("carrito", JSON.stringify(carrito));
-}
-
-function agregarAlCarrito(index) {
-  carrito.push(productos[index]);
-  actualizarCarrito();
-}
-
-function renderizarProductos() {
-  const contenedor = document.getElementById("lista-productos");
-  productos.forEach((producto, index) => {
-    const div = document.createElement("div");
-    div.classList.add("producto");
+  productosFiltrados.forEach(producto => {
+    const div = document.createElement('div');
+    div.classList.add('card');
     div.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.nombre}" />
+      <img src="${producto.imagen}" alt="${producto.nombre}">
       <h3>${producto.nombre}</h3>
       <p>$${producto.precio}</p>
-      <button onclick="agregarAlCarrito(${index})">Agregar</button>
+      <button onclick="agregarAlCarrito('${producto.nombre}')">Agregar</button>
     `;
     contenedor.appendChild(div);
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderizarProductos();
+function agregarAlCarrito(nombre) {
+  const producto = productos.find(p => p.nombre === nombre);
+  carrito.push(producto);
   actualizarCarrito();
+}
+
+function actualizarCarrito() {
+  document.getElementById('cantidad-productos').innerText = carrito.length;
+  document.getElementById('total').innerText = carrito.reduce((acc, p) => acc + p.precio, 0);
+}
+
+document.getElementById('buscador').addEventListener('input', (e) => {
+  const filtro = e.target.value.toLowerCase();
+  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(filtro));
+  mostrarProductos(filtrados);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  mostrarProductos(productos);
+});
+
