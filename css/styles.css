@@ -1,58 +1,85 @@
 body {
+  margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #e6ffe6, #ccffcc);
   color: #333;
-  padding: 30px;
 }
 
-h1 {
-  color: #ff8800;
-  text-shadow: 1px 1px #fff;
+.navbar {
+  background-color: #facc15;
+  padding: 1rem;
+  text-align: center;
 }
 
-h2 {
-  color: #009933;
-  margin-top: 20px;
+.navbar h1 {
+  margin: 0;
+  color: #065f46;
 }
 
-.productos-container {
+.contenedor {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.productos {
+  flex: 2;
+}
+
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
 }
 
 .producto {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 8px;
-  width: 180px;
+  background: white;
+  border: 2px solid #facc15;
+  border-radius: 10px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.producto img {
+  max-width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
 .producto button {
-  margin-top: 10px;
-  padding: 5px 10px;
-  background-color: #009933;
-  color: white;
+  background-color: #f59e0b;
   border: none;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  color: white;
+  font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
 }
 
 .producto button:hover {
-  background-color: #006622;
+  background-color: #d97706;
 }
 
-#carrito {
-  list-style: none;
-  padding-left: 0;
+.carrito {
+  flex: 1;
+  background-color: #fff9db;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #facc15;
+  min-width: 250px;
 }
 
-footer {
-  margin-top: 50px;
-  font-size: 0.9em;
-  color: #555;
+.carrito h2 {
+  color: #065f46;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #facc15;
+  margin-top: 2rem;
 }

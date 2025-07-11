@@ -2,28 +2,32 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mercado Modelo - Simulador de Compras</title>
   <link rel="stylesheet" href="css/styles.css" />
   <script src="js/script.js" defer></script>
 </head>
 <body>
-  <h1>Simulador: Carrito de Compras de Mercado Modelo</h1>
+  <header class="navbar">
+    <h1>Mercado Modelo</h1>
+  </header>
 
-  <section>
-    <h2>Productos disponibles</h2>
-    <div id="productos" class="productos-container"></div>
-  </section>
+  <main class="contenedor">
+    <section class="productos">
+      <h2>Nuestros Productos</h2>
+      <div id="lista-productos" class="grid-productos"></div>
+    </section>
 
-  <section>
-    <h2>Tu carrito</h2>
-    <ul id="carrito"></ul>
-    <p><strong>Total:</strong> $<span id="total">0</span></p>
-    <button id="finalizar">Finalizar compra</button>
-  </section>
+    <aside class="carrito">
+      <h2>Carrito</h2>
+      <ul id="carrito-lista"></ul>
+      <p><strong>Cantidad:</strong> <span id="cantidad">0</span></p>
+      <p><strong>Total:</strong> $<span id="total">0</span></p>
+    </aside>
+  </main>
 
-  <footer>
-    Simulador creado por Cintia Hardy | Proyecto Mercado Modelo actividad 2 | Curso de JavaScript
+  <footer class="footer">
+    <p>© 2025 Mercado Modelo - Todos los derechos reservados.</p>
   </footer>
 </body>
 </html>
