@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mercado Modelo - Simulador</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mercado Modelo - Frutas y Verduras</title>
+  <link rel="stylesheet" href="css/styles.css" />
   <script src="js/script.js" defer></script>
 </head>
 <body>
   <header>
-    <h1>Mercado Modelo</h1>
+    <h1>🛒 Mercado Modelo - Frutas y Verduras</h1>
   </header>
 
   <main class="contenedor">
     <section class="productos">
-      <h2>Nuestros Productos</h2>
+      <h2>Productos</h2>
       <input type="text" id="buscador" placeholder="Buscar producto...">
       <div id="lista-productos" class="grid"></div>
     </section>
 
     <aside class="carrito">
       <h2>Carrito</h2>
-      <p><strong>Cantidad:</strong> <span id="cantidad-productos">0</span></p>
+      <p><strong>Productos:</strong> <span id="cantidad-productos">0</span></p>
       <p><strong>Total:</strong> $<span id="total">0</span></p>
+      <button id="btn-wsp">Enviar pedido por WhatsApp</button>
     </aside>
   </main>
+
+  <a href="https://wa.me/543482332865" target="_blank" class="wsp-fixed">
+    <img src="img/whatsapp.png" alt="WhatsApp" />
+  </a>
 </body>
 </html>
 

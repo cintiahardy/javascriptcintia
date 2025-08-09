@@ -1,5 +1,5 @@
 const productos = [
-  { nombre: "Manzana", precio: 1000, imagen: "/img/manzana.jpg" },
+  { nombre: "Manzana", precio: 1000, imagen: "../img/manzana.jpg" },
   { nombre: "Banana", precio: 950, imagen: "../img/pexels-ata-alikate-1914780-32857517.jpg" },
   { nombre: "Naranja", precio: 1130, imagen: "../img/pexels-pixabay-161559.jpg" },
   { nombre: "Mandarina", precio: 1050, imagen: "../img/pexels-pixabay-327098.jpg" },
@@ -24,51 +24,91 @@ const productos = [
   { nombre: "Apio", precio: 600, imagen: "../img/apio.jpg" },
   { nombre: "Remolacha", precio: 920, imagen: "../img/remolacha.jpg" },
   { nombre: "Melon", precio: 1100, imagen: "../img/melon.jpg" },
-  { nombre: "pimiento", precio: 800, imagen: "../img/pimiento.jpg" },
+  { nombre: "Pimiento", precio: 800, imagen: "../img/pimiento.jpg" },
   { nombre: "Palta", precio: 2300, imagen: "../img/palta.jpg" },
   { nombre: "Choclo", precio: 1400, imagen: "../img/choclo.jpg" },
   { nombre: "Berenjena", precio: 980, imagen: "../img/berenjena.jpg" },
-  { nombre: "pomelo", precio: 860, imagen: "../img/pomelo.jpg" },
-  { nombre: "limon", precio: 650, imagen: "../img/limon.jpg" }
+  { nombre: "Pomelo", precio: 860, imagen: "../img/pomelo.jpg" },
+  { nombre: "Limón", precio: 650, imagen: "../img/limon.jpg" }
 ];
 
-let carrito = [];
+let carrito = {};
 
-function mostrarProductos(productosFiltrados) {
-  const contenedor = document.getElementById('lista-productos');
-  contenedor.innerHTML = '';
+function mostrarProductos(lista) {
+  const contenedor = document.getElementById("lista-productos");
+  contenedor.innerHTML = "";
 
-  productosFiltrados.forEach(producto => {
-    const div = document.createElement('div');
-    div.classList.add('card');
-    div.innerHTML = `
+  lista.forEach((producto) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
       <img src="${producto.imagen}" alt="${producto.nombre}">
-      <h3>${producto.nombre}</h3>
-      <p>$${producto.precio}</p>
-      <button onclick="agregarAlCarrito('${producto.nombre}')">Agregar</button>
+      <h3>${producto.nombre} x KG</h3>
+      <p><s>$${(producto.precio * 1.2).toFixed(2)}</s></p>
+      <p><strong>$${producto.precio.toFixed(2)}</strong></p>
+      <p class="precio-sin-imp">Precio s/imp. $${(producto.precio * 0.9).toFixed(2)}</p>
+      <div class="controles">
+        <button onclick="restar('${producto.nombre}')">-</button>
+        <span id="cantidad-${producto.nombre}">0.00</span>
+        <button onclick="sumar('${producto.nombre}')">+</button>
+      </div>
     `;
-    contenedor.appendChild(div);
+    contenedor.appendChild(card);
   });
 }
 
-function agregarAlCarrito(nombre) {
-  const producto = productos.find(p => p.nombre === nombre);
-  carrito.push(producto);
+function sumar(nombre) {
+  if (!carrito[nombre]) carrito[nombre] = 0;
+  carrito[nombre] += 1;
+  actualizarCantidad(nombre);
   actualizarCarrito();
 }
 
-function actualizarCarrito() {
-  document.getElementById('cantidad-productos').innerText = carrito.length;
-  document.getElementById('total').innerText = carrito.reduce((acc, p) => acc + p.precio, 0);
+function restar(nombre) {
+  if (carrito[nombre]) {
+    carrito[nombre] -= 1;
+    if (carrito[nombre] <= 0) delete carrito[nombre];
+  }
+  actualizarCantidad(nombre);
+  actualizarCarrito();
 }
 
-document.getElementById('buscador').addEventListener('input', (e) => {
+function actualizarCantidad(nombre) {
+  const cantidad = carrito[nombre] || 0;
+  document.getElementById(`cantidad-${nombre}`).innerText = cantidad.toFixed(2);
+}
+
+function actualizarCarrito() {
+  const totalItems = Object.values(carrito).reduce((a, b) => a + b, 0);
+  const totalPrecio = Object.entries(carrito).reduce((acc, [nombre, cant]) => {
+    const prod = productos.find(p => p.nombre === nombre);
+    return acc + prod.precio * cant;
+  }, 0);
+
+  document.getElementById("cantidad-productos").innerText = totalItems;
+  document.getElementById("total").innerText = `$${totalPrecio.toFixed(2)}`;
+}
+
+function enviarPedido() {
+  const mensaje = Object.entries(carrito).map(([nombre, cant]) => {
+    return `- ${nombre} x ${cant}KG`;
+  }).join('%0A');
+  const total = document.getElementById("total").innerText;
+  const texto = `Hola! Quiero hacer el siguiente pedido:%0A${mensaje}%0ATotal: ${total}`;
+  const numero = "3482332865";
+  window.open(`https://wa.me/${numero}?text=${texto}`, "_blank");
+}
+
+document.getElementById("buscador").addEventListener("input", (e) => {
   const filtro = e.target.value.toLowerCase();
-  const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(filtro));
+  const filtrados = productos.filter(p =>
+    p.nombre.toLowerCase().includes(filtro)
+  );
   mostrarProductos(filtrados);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.getElementById("btn-wsp").addEventListener("click", enviarPedido);
+
+document.addEventListener("DOMContentLoaded", () => {
   mostrarProductos(productos);
 });
-
