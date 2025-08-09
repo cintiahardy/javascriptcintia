@@ -42,15 +42,19 @@ function mostrarProductos(lista) {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.nombre}">
-      <h3>${producto.nombre} x KG</h3>
-      <p><s>$${(producto.precio * 1.2).toFixed(2)}</s></p>
-      <p><strong>$${producto.precio.toFixed(2)}</strong></p>
-      <p class="precio-sin-imp">Precio s/imp. $${(producto.precio * 0.9).toFixed(2)}</p>
+      <div class="imagen-prod">
+        <img src="${producto.imagen}" alt="${producto.nombre}">
+      </div>
+      <div class="info-prod">
+        <h3>${producto.nombre} x KG</h3>
+        <p class="precio-viejo"><s>$${(producto.precio * 1.2).toFixed(2)}</s></p>
+        <p class="precio-actual">$${producto.precio.toFixed(2)}</p>
+        <p class="precio-sin-imp">Precio s/imp.: $${(producto.precio * 0.9).toFixed(2)}</p>
+      </div>
       <div class="controles">
-        <button onclick="restar('${producto.nombre}')">-</button>
+        <button class="btn-restar" onclick="restar('${producto.nombre}')">-</button>
         <span id="cantidad-${producto.nombre}">0.00</span>
-        <button onclick="sumar('${producto.nombre}')">+</button>
+        <button class="btn-sumar" onclick="sumar('${producto.nombre}')">+</button>
       </div>
     `;
     contenedor.appendChild(card);
@@ -85,7 +89,7 @@ function actualizarCarrito() {
     return acc + prod.precio * cant;
   }, 0);
 
-  document.getElementById("cantidad-productos").innerText = totalItems;
+  document.getElementById("cantidad-productos").innerText = totalItems.toFixed(2);
   document.getElementById("total").innerText = `$${totalPrecio.toFixed(2)}`;
 }
 
