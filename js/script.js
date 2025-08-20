@@ -1,197 +1,157 @@
+// ---------- Referencias del DOM ----------
+const productosContainer = document.getElementById("productos-container");
+const carritoList       = document.getElementById("carrito-list");
+const totalElement      = document.getElementById("total");
+const buscador          = document.getElementById("searchInput");
+const btnVaciar         = document.getElementById("vaciarCarrito");
+const carritoContainer  = document.getElementById("carrito-container");
+const btnVerCarrito     = document.getElementById("verCarrito");
+const carritoCount      = document.getElementById("carrito-count");
 
-const productos = [
-  { id: 1, nombre: "Manzana", precio: 1000, imagen: "img/manzana.jpg" },
-  { id: 2, nombre: "Banana", precio: 950, imagen: "img/pexels-ata-alikate-1914780-32857517.jpg" },
-  { id: 3, nombre: "Naranja", precio: 1130, imagen: "img/pexels-pixabay-161559.jpg" },
-  { id: 4, nombre: "Mandarina", precio: 1050, imagen: "img/pexels-pixabay-327098.jpg" },
-  { id: 5, nombre: "Frutilla", precio: 2100, imagen: "img/pexels-shotbyrain-6944172.jpg" },
-  { id: 6, nombre: "Ciruela", precio: 1600, imagen: "img/ciruela.jpg" },
-  { id: 7, nombre: "Pera", precio: 1600, imagen: "img/pera.jpg" },
-  { id: 8, nombre: "Uva", precio: 2000, imagen: "img/pexels-qjpioneer-708777.jpg" },
-  { id: 9, nombre: "Ananá", precio: 2500, imagen: "img/pexels-laker-6157052.jpg" },
-  { id: 10, nombre: "Sandía", precio: 3000, imagen: "img/sandia.jpg" },
-  { id: 11, nombre: "Durazno", precio: 2100, imagen: "img/durazno.jpg" },
-  { id: 12, nombre: "Tomate", precio: 1150, imagen: "img/tomate.jpg" },
-  { id: 13, nombre: "Zanahoria", precio: 990, imagen: "img/zanahoria.jpg" },
-  { id: 14, nombre: "Papa", precio: 650, imagen: "img/papa.jpg" },
-  { id: 15, nombre: "Cebolla", precio: 700, imagen: "img/cebolla.jpg" },
-  { id: 16, nombre: "Lechuga", precio: 780, imagen: "img/lechuga.jpg" },
-  { id: 17, nombre: "Espinaca", precio: 1300, imagen: "img/pexels-yaroslav-shuraev-8852027.jpg" },
-  { id: 18, nombre: "Acelga", precio: 790, imagen: "img/acelga.jpg" },
-  { id: 19, nombre: "Brócoli", precio: 1200, imagen: "img/pexels-cup-of-couple-7657091.jpg" },
-  { id: 20, nombre: "Coliflor", precio: 1100, imagen: "img/coliflor.jpg" },
-  { id: 21, nombre: "Arandanos", precio: 900, imagen: "img/arandanos.jpg" },
-  { id: 22, nombre: "Pepino", precio: 850, imagen: "img/pexels-lo-422811-2329440.jpg" },
-  { id: 23, nombre: "Apio", precio: 600, imagen: "img/apio.jpg" },
-  { id: 24, nombre: "Remolacha", precio: 920, imagen: "img/remolacha.jpg" },
-  { id: 25, nombre: "Melon", precio: 1100, imagen: "img/melon.jpg" },
-  { id: 26, nombre: "Pimiento", precio: 800, imagen: "img/pimiento.jpg" },
-  { id: 27, nombre: "Palta", precio: 2300, imagen: "img/palta.jpg" },
-  { id: 28, nombre: "Choclo", precio: 1400, imagen: "img/choclo.jpg" },
-  { id: 29, nombre: "Berenjena", precio: 980, imagen: "img/berenjena.jpg" },
-  { id: 30, nombre: "Pomelo", precio: 860, imagen: "img/pomelo.jpg" },
-  { id: 31, nombre: "Limón", precio: 650, imagen: "img/limon.jpg" }
-];
+// ---------- Estado ----------
+let productos = [];
+let carrito   = JSON.parse(localStorage.getItem("carrito")) || [];
 
-let carrito = {}; 
-const $ = sel => document.querySelector(sel);
-const $all = sel => Array.from(document.querySelectorAll(sel));
-const paso = 0.25; 
+// ---------- Toast SweetAlert2 ----------
+const Toast = Swal.mixin({
+  toast: true,
+  position: "top-end",
+  showConfirmButton: false,
+  timer: 1600,
+  timerProgressBar: true
+});
 
-const contenedorProductos = $("#lista-productos");
-const buscador = $("#buscador");
-const spanCantidad = $("#cantidad-productos");
-const spanTotal = $("#total");
-const botonEnviar = $("#btn-enviar-pedido");
-const listaCarrito = $("#lista-carrito");
-const whatsappFloat = $("#icon-wsp");
-
-function formateaPrecio(num){
-  return num.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-}
-
-function cargarCarrito(){
+// ---------- Cargar productos con fetch ----------
+async function cargarProductos() {
   try {
-    const raw = localStorage.getItem('carritoMercadoModelo');
-    if(raw){
-      carrito = JSON.parse(raw);
-    } else {
-      carrito = {};
-    }
-  } catch(e){
-    carrito = {};
+    // Ruta relativa al index.html -> tu JSON está en js/data/
+    const res = await fetch("js/data/productos.json");
+    if (!res.ok) throw new Error("No se pudo cargar productos.json");
+    productos = await res.json();
+    renderizarProductos(productos);
+  } catch (err) {
+    console.error(err);
+    Swal.fire("Error", "No se pudieron cargar los productos", "error");
   }
 }
 
-function guardarCarrito(){
-  localStorage.setItem('carritoMercadoModelo', JSON.stringify(carrito));
-}
+// ---------- Renderizar catálogo ----------
+function renderizarProductos(lista) {
+  productosContainer.innerHTML = "";
 
-function renderProductos(list){
-  contenedorProductos.innerHTML = '';
-  list.forEach(prod => {
-    const precioAnterior = (prod.precio * 1.2);
-    const precioSinImp = (prod.precio * 0.9);
-    const cantidad = carrito[prod.id] || 0;
-
-    const card = document.createElement('article');
-    card.className = 'card';
+  lista.forEach((producto) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
     card.innerHTML = `
-      <div class="img-wrap"><img src="${prod.imagen}" alt="${prod.nombre}" loading="lazy"></div>
-      <div class="info">
-        <h3>${prod.nombre} x KG</h3>
-        <div class="precio-anterior">$${formateaPrecio(precioAnterior)}</div>
-        <div class="precio-actual">$${formateaPrecio(prod.precio)}</div>
-        <div class="precio-sin-imp">Precio s/imp. $${formateaPrecio(precioSinImp)}</div>
+      <img src="${producto.imagen}" alt="${producto.nombre}">
+      <h3>${producto.nombre}</h3>
+      <p>$${producto.precio}</p>
+      <div class="cantidad-control">
+        <button class="btn-restar">-</button>
+        <span class="cantidad">1</span>
+        <button class="btn-sumar">+</button>
       </div>
-      <div class="controles">
-        <button class="btn-res" data-id="${prod.id}" aria-label="restar">-</button>
-        <div class="cant-display" id="cant-${prod.id}">${cantidad.toFixed(2)}</div>
-        <button class="btn-sum" data-id="${prod.id}" aria-label="sumar">+</button>
-      </div>
+      <button class="btn-agregar">Agregar al carrito</button>
     `;
-    contenedorProductos.appendChild(card);
-  });
 
-  $all('.btn-sum').forEach(b => b.addEventListener('click', e => {
-    const id = Number(e.currentTarget.dataset.id);
-    cambiarCantidad(id, paso);
-  }));
-  $all('.btn-res').forEach(b => b.addEventListener('click', e => {
-    const id = Number(e.currentTarget.dataset.id);
-    cambiarCantidad(id, -paso);
-  }));
+    // Manejo de cantidad
+    let cantidad = 1;
+    const spanCantidad = card.querySelector(".cantidad");
+    card.querySelector(".btn-sumar").addEventListener("click", () => {
+      cantidad++; spanCantidad.textContent = cantidad;
+    });
+    card.querySelector(".btn-restar").addEventListener("click", () => {
+      if (cantidad > 1) { cantidad--; spanCantidad.textContent = cantidad; }
+    });
+
+    // Agregar al carrito
+    card.querySelector(".btn-agregar").addEventListener("click", () => {
+      agregarAlCarrito(producto, cantidad);
+    });
+
+    productosContainer.appendChild(card);
+  });
 }
 
-function cambiarCantidad(id, delta){
-  const prod = productos.find(p => p.id === id);
-  if(!prod) return;
-  const actual = carrito[id] || 0;
-  let nueva = +(actual + delta).toFixed(2);
-  if(nueva < 0) nueva = 0;
-  if(nueva === 0){
-    delete carrito[id];
+// ---------- Carrito ----------
+function agregarAlCarrito(producto, cantidad) {
+  const existente = carrito.find((p) => p.id === producto.id);
+  if (existente) {
+    existente.cantidad += cantidad;
   } else {
-    carrito[id] = nueva;
+    carrito.push({ ...producto, cantidad });
   }
-  document.getElementById(`cant-${id}`).innerText = (carrito[id] || 0).toFixed(2);
-  actualizarCarrito();
   guardarCarrito();
+  renderizarCarrito();
+
+  Toast.fire({ icon: "success", title: "Agregado al carrito" });
 }
 
-function actualizarCarrito(){
-  
-  const totalItems = Object.values(carrito).reduce((s, c) => s + c, 0);
-  spanCantidad.innerText = totalItems.toFixed(2);
+function renderizarCarrito() {
+  carritoList.innerHTML = "";
 
-  let totalPrecio = 0;
-  listaCarrito.innerHTML = '';
-  Object.entries(carrito).forEach(([idStr, cant]) => {
-    const id = Number(idStr);
-    const prod = productos.find(p => p.id === id);
-    if(!prod) return;
-    const subtotal = prod.precio * cant;
-    totalPrecio += subtotal;
-
-    const li = document.createElement('li');
-    li.innerText = `${prod.nombre} x ${cant.toFixed(2)} kg — $${formateaPrecio(subtotal)}`;
-    listaCarrito.appendChild(li);
-  });
-
-  spanTotal.innerText = formateaPrecio(totalPrecio);
-}
-
-function enviarPedidoWhatsApp(){
-  const items = Object.entries(carrito);
-  if(items.length === 0){
-    
-    botonEnviar.innerText = 'Carrito vacío';
-    setTimeout(()=> botonEnviar.innerText = 'Enviar pedido por WhatsApp', 1500);
-    return;
-  }
-
-  let mensaje = 'Hola! Quiero hacer el siguiente pedido:%0A';
-  let total = 0;
-  items.forEach(([idStr, cant], idx) => {
-    const id = Number(idStr);
-    const prod = productos.find(p => p.id === id);
-    const subtotal = prod.precio * cant;
-    total += subtotal;
-    mensaje += `${idx+1}. ${prod.nombre} x ${cant.toFixed(2)} kg - $${formateaPrecio(subtotal)}%0A`;
-  });
-  mensaje += `%0ATotal: $${formateaPrecio(total)}`;
-
-  const numero = '3482332865'; 
-  const url = `https://wa.me/54${numero}?text=${encodeURIComponent(decodeURIComponent(mensaje))}`;
-  window.open(url, '_blank');
-}
-
-function filtrarProductos(text){
-  const t = text.trim().toLowerCase();
-  if(!t) return productos;
-  return productos.filter(p => p.nombre.toLowerCase().includes(t));
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  cargarCarrito();
-  renderProductos(productos); 
-  actualizarCarrito();
-
-
-  buscador.addEventListener('input', (e) => {
-    const filtrados = filtrarProductos(e.target.value);
-    renderProductos(filtrados);
-
-    Object.keys(carrito).forEach(id => {
-      const el = document.getElementById(`cant-${id}`);
-      if(el) el.innerText = carrito[id].toFixed(2);
+  carrito.forEach((item) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${item.nombre} x${item.cantidad}</span>
+      <span>$${item.precio * item.cantidad}</span>
+      <button class="btn-eliminar">❌</button>
+    `;
+    li.querySelector(".btn-eliminar").addEventListener("click", () => {
+      eliminarDelCarrito(item.id);
     });
+    carritoList.appendChild(li);
   });
 
-  botonEnviar.addEventListener('click', enviarPedidoWhatsApp);
+  const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+  totalElement.textContent = `Total: $${total}`;
 
-  if(whatsappFloat){
-    whatsappFloat.addEventListener('click', (e) => {
-    });
+  const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+  carritoCount.textContent = totalItems;
+}
+
+function eliminarDelCarrito(id) {
+  carrito = carrito.filter((item) => item.id !== id);
+  guardarCarrito();
+  renderizarCarrito();
+  Toast.fire({ icon: "info", title: "Producto eliminado" });
+}
+
+btnVaciar.addEventListener("click", async () => {
+  const { isConfirmed } = await Swal.fire({
+    title: "Vaciar carrito",
+    text: "¿Seguro que querés eliminar todos los productos?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, vaciar",
+    cancelButtonText: "Cancelar"
+  });
+  if (isConfirmed) {
+    carrito = [];
+    guardarCarrito();
+    renderizarCarrito();
+    Toast.fire({ icon: "success", title: "Carrito vacío" });
   }
 });
+
+function guardarCarrito() {
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+// ---------- Buscador ----------
+buscador.addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase();
+  const filtrados = productos.filter((p) =>
+    p.nombre.toLowerCase().includes(texto)
+  );
+  renderizarProductos(filtrados);
+});
+
+// ---------- Mostrar / ocultar carrito ----------
+btnVerCarrito.addEventListener("click", () => {
+  carritoContainer.classList.toggle("hidden");
+});
+
+// ---------- Inicialización ----------
+cargarProductos();
+renderizarCarrito();

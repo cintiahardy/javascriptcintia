@@ -1,57 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mercado Modelo - Frutas y Verduras</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mercado Modelo</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/styles.css"/>
+
+  <!-- SweetAlert2 (librería externa requerida) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Tu JS -->
+  <script src="js/script.js" defer></script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="logo">
-        <span class="carrito-emoji">🛒</span>
-        <h1>Mercado Modelo</h1>
-      </div>
-      <p class="tagline">Lo natural hace bien</p>
+  <!-- Encabezado -->
+  <header>
+    <div>
+      <h1>Mercado Modelo</h1>
+      <h2>Lo natural hace bien</h2>
     </div>
+
+    <input type="text" id="searchInput" placeholder="Buscar productos..."/>
+    <button id="verCarrito">🛒 Carrito (<span id="carrito-count">0</span>)</button>
   </header>
 
-  <main class="main">
-    <section class="catalog">
-      <div class="catalog-top">
-        <h2>Productos</h2>
-        <input id="buscador" type="search" placeholder="Buscar producto..." />
-      </div>
+  <!-- Contenido -->
+  <main>
+    <section id="productos-container"></section>
 
-      <div id="lista-productos" class="grid-products">
-        
-      </div>
-    </section>
-
-    <aside class="sidebar">
-      <div class="cart-card">
-        <h2>Carrito</h2>
-        <p><strong>Productos:</strong> <span id="cantidad-productos">0.00</span></p>
-        <p><strong>Total:</strong> $<span id="total">0.00</span></p>
-
-        <button id="btn-enviar-pedido" class="btn btn-wsp">Enviar pedido por WhatsApp</button>
-
-        <div class="cart-list-wrap">
-          <h3>Resumen</h3>
-          <ul id="lista-carrito" class="cart-list"></ul>
-        </div>
-      </div>
+    <aside id="carrito-container" class="hidden">
+      <h2>Tu Carrito</h2>
+      <ul id="carrito-list"></ul>
+      <p id="total">Total: $0</p>
+      <button id="vaciarCarrito">Vaciar Carrito</button>
     </aside>
   </main>
 
-  <a id="icon-wsp" class="whatsapp-float" href="https://wa.me/543482332865" target="_blank" title="WhatsApp" aria-label="WhatsApp">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="35" height="35" fill="#fff">
-      <path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.644.85 5.09 2.293 7.104L4 29l7.104-2.293A11.92 11.92 0 0 0 16 27c6.627 0 12-5.373 12-12S22.628 3 16.001 3zm0 21.917c-2.07 0-4.086-.55-5.854-1.592l-.418-.248-4.214 1.36 1.376-4.106-.272-.428A9.922 9.922 0 0 1 6.083 15c0-5.465 4.453-9.917 9.918-9.917 5.465 0 9.917 4.452 9.917 9.917 0 5.465-4.452 9.917-9.917 9.917zm5.503-7.373c-.302-.15-1.788-.884-2.065-.984-.277-.1-.48-.15-.682.15-.202.301-.782.983-.958 1.185-.176.202-.353.227-.655.076-.302-.15-1.276-.47-2.43-1.496-.899-.8-1.507-1.788-1.683-2.09-.176-.301-.019-.464.132-.614.135-.134.302-.352.453-.528.151-.176.202-.302.302-.504.101-.201.05-.377-.025-.528-.075-.15-.682-1.64-.934-2.245-.246-.59-.496-.509-.682-.518l-.582-.01c-.201 0-.528.075-.804.377-.277.301-1.057 1.033-1.057 2.52s1.082 2.924 1.233 3.126c.151.202 2.13 3.253 5.162 4.56.721.311 1.284.497 1.723.637.724.23 1.382.198 1.904.12.581-.086 1.788-.729 2.041-1.434.252-.705.252-1.309.176-1.434-.075-.125-.277-.202-.58-.352z"/>
-    </svg>
-  </a>
-
-  <script src="js/script.js" defer></script>
+  <footer>
+    <p>&copy; 2025 Mercado Modelo</p>
+  </footer>
 </body>
 </html>
 
