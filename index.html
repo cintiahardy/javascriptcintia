@@ -8,40 +8,41 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="css/styles.css"/>
 
-  <!-- SweetAlert2 (librería externa requerida) -->
+  <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <!-- Tu JS -->
-  <script src="js/script.js" defer></script>
 </head>
 <body>
   <!-- Encabezado -->
-  <header>
-    <div>
+  <header class="header">
+    <div class="header-inner">
       <h1>Mercado Modelo</h1>
-      <h2>Lo natural hace bien</h2>
-    </div>
+      <p class="sub">Lo natural hace bien</p>
 
-    <input type="text" id="searchInput" placeholder="Buscar productos..."/>
-    <button id="verCarrito">🛒 Carrito (<span id="carrito-count">0</span>)</button>
+      <div class="actions">
+        <input id="searchInput" type="text" placeholder="Buscar productos..."/>
+        <button id="verCarrito">
+          🛒 Carrito (<span id="carrito-count">0</span>)
+        </button>
+      </div>
+    </div>
   </header>
 
   <!-- Contenido -->
-  <main>
-    <section id="productos-container"></section>
+  <main class="layout">
+    <section id="productos-container" class="grid"></section>
 
-    <aside id="carrito-container" class="hidden">
+    <aside id="carrito-container" class="carrito hidden">
       <h2>Tu Carrito</h2>
       <ul id="carrito-list"></ul>
       <p id="total">Total: $0</p>
-      <button id="vaciarCarrito">Vaciar Carrito</button>
+      <div class="carrito-actions">
+        <button id="vaciarCarrito" class="btn btn-outline">Vaciar Carrito</button>
+        <button id="enviarPedido" class="btn">Enviar Pedido</button>
+      </div>
     </aside>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Mercado Modelo</p>
-  </footer>
+  <!-- Lógica -->
+  <script src="js/script.js" defer></script>
 </body>
 </html>
-
-

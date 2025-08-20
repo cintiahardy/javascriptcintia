@@ -7,6 +7,7 @@ const btnVaciar         = document.getElementById("vaciarCarrito");
 const carritoContainer  = document.getElementById("carrito-container");
 const btnVerCarrito     = document.getElementById("verCarrito");
 const carritoCount      = document.getElementById("carrito-count");
+const btnEnviarPedido   = document.getElementById("enviarPedido");
 
 // ---------- Estado ----------
 let productos = [];
@@ -24,7 +25,7 @@ const Toast = Swal.mixin({
 // ---------- Cargar productos con fetch ----------
 async function cargarProductos() {
   try {
-    // Ruta relativa al index.html -> tu JSON está en js/data/
+    // Ruta pensada para: /js/data/productos.json
     const res = await fetch("js/data/productos.json");
     if (!res.ok) throw new Error("No se pudo cargar productos.json");
     productos = await res.json();
@@ -42,26 +43,33 @@ function renderizarProductos(lista) {
   lista.forEach((producto) => {
     const card = document.createElement("div");
     card.classList.add("card");
+
     card.innerHTML = `
       <img src="${producto.imagen}" alt="${producto.nombre}">
       <h3>${producto.nombre}</h3>
-      <p>$${producto.precio}</p>
+      <p class="price">$${producto.precio}</p>
+
       <div class="cantidad-control">
-        <button class="btn-restar">-</button>
+        <button class="btn-restar">−</button>
         <span class="cantidad">1</span>
         <button class="btn-sumar">+</button>
       </div>
+
       <button class="btn-agregar">Agregar al carrito</button>
     `;
 
-    // Manejo de cantidad
+    // Manejo de cantidad por tarjeta
     let cantidad = 1;
     const spanCantidad = card.querySelector(".cantidad");
     card.querySelector(".btn-sumar").addEventListener("click", () => {
-      cantidad++; spanCantidad.textContent = cantidad;
+      cantidad++;
+      spanCantidad.textContent = cantidad;
     });
     card.querySelector(".btn-restar").addEventListener("click", () => {
-      if (cantidad > 1) { cantidad--; spanCantidad.textContent = cantidad; }
+      if (cantidad > 1) {
+        cantidad--;
+        spanCantidad.textContent = cantidad;
+      }
     });
 
     // Agregar al carrito
@@ -83,7 +91,6 @@ function agregarAlCarrito(producto, cantidad) {
   }
   guardarCarrito();
   renderizarCarrito();
-
   Toast.fire({ icon: "success", title: "Agregado al carrito" });
 }
 
@@ -94,7 +101,7 @@ function renderizarCarrito() {
     const li = document.createElement("li");
     li.innerHTML = `
       <span>${item.nombre} x${item.cantidad}</span>
-      <span>$${item.precio * item.cantidad}</span>
+      <span>$${(item.precio * item.cantidad).toFixed(2)}</span>
       <button class="btn-eliminar">❌</button>
     `;
     li.querySelector(".btn-eliminar").addEventListener("click", () => {
@@ -104,7 +111,7 @@ function renderizarCarrito() {
   });
 
   const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
-  totalElement.textContent = `Total: $${total}`;
+  totalElement.textContent = `Total: $${total.toFixed(2)}`;
 
   const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
   carritoCount.textContent = totalItems;
@@ -118,6 +125,10 @@ function eliminarDelCarrito(id) {
 }
 
 btnVaciar.addEventListener("click", async () => {
+  if (carrito.length === 0) {
+    Toast.fire({ icon: "info", title: "El carrito ya está vacío" });
+    return;
+  }
   const { isConfirmed } = await Swal.fire({
     title: "Vaciar carrito",
     text: "¿Seguro que querés eliminar todos los productos?",
@@ -134,13 +145,33 @@ btnVaciar.addEventListener("click", async () => {
   }
 });
 
+btnEnviarPedido.addEventListener("click", () => {
+  if (carrito.length === 0) {
+    Swal.fire("Carrito vacío", "Agregá productos antes de enviar el pedido", "warning");
+    return;
+  }
+  const detalle = carrito
+    .map(i => `${i.nombre} x${i.cantidad} — $${(i.precio * i.cantidad).toFixed(2)}`)
+    .join("<br>");
+
+  Swal.fire({
+    title: "Pedido enviado ✅",
+    html: detalle,
+    icon: "success"
+  });
+
+  carrito = [];
+  guardarCarrito();
+  renderizarCarrito();
+});
+
 function guardarCarrito() {
   localStorage.setItem("carrito", JSON.stringify(carrito));
 }
 
 // ---------- Buscador ----------
 buscador.addEventListener("input", (e) => {
-  const texto = e.target.value.toLowerCase();
+  const texto = e.target.value.toLowerCase().trim();
   const filtrados = productos.filter((p) =>
     p.nombre.toLowerCase().includes(texto)
   );
